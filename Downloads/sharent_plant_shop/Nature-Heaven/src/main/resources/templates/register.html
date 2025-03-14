@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+  <style>
+    .register-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+
+    .register-form-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+      width: 500px;
+      max-width: 95%;
+    }
+
+    .register-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-weight: bold;
+    }
+
+    .btn-register {
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .already-registered {
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top p-0">
+  <a href="#" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+    <h1 class="m-0">Gardener</h1>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+    <div class="navbar-nav ml-auto p-4 p-lg-0">
+      <a th:href="@{/index}" class="nav-item nav-link">Home</a>
+      <a th:href="@{/about}" class="nav-item nav-link active">About</a>
+      <a th:href="@{/service}" class="nav-item nav-link">Services</a>
+      <a th:href="@{/project}" class="nav-item nav-link">Projects</a>
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+        <div class="dropdown-menu bg-light m-0">
+          <a th:href="@{/feature}" class="dropdown-item">Features</a>
+          <a th:href="@{/quote}" class="dropdown-item">Free Quote</a>
+          <a th:href="@{/team}" class="dropdown-item">Our Team</a>
+          <a th:href="@{/testimonial}" class="dropdown-item">Testimonial</a>
+          <a th:href="@{/api/plants/}" class="dropdown-item">Plants</a>
+          <a th:href="@{/api/categories/}" class="dropdown-item">Shop By Categories</a>
+        </div>
+      </div>
+      <a th:href="@{/contact}" class="nav-item nav-link">Contact</a>
+    </div>
+    <a th:href="@{/quote}" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">
+      Get A Quote<i class="fa fa-arrow-right ms-3"></i>
+    </a>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<!-- Register Form -->
+<div class="register-container">
+  <div class="register-form-container">
+    <div class="register-header">
+      <h2><i class="fas fa-user-plus"></i> Register</h2>
+    </div>
+
+    <form th:action="@{/auth/register}" th:object="${user}" method="post">
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" th:field="*{firstName}" class="form-control" required />
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" th:field="*{lastName}" class="form-control" required />
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" th:field="*{username}" class="form-control" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" class="form-control" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" th:field="*{password}" class="form-control" required />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control" required />
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role" th:field="*{role}" class="form-control">
+          <option value="ROLE_USER">User</option>
+          <option value="ROLE_ADMIN">Admin</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-register">Register</button>
+    </form>
+
+    <div class="already-registered">
+      <p>Already have an account? <a href="/login" th:href="@{/login}">Login here</a></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-login {
+            width: 100%;
+        }
+
+        .alert {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top">
+    <a href="#" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <h1 class="m-0">Gardener</h1>
+    </a>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+        <div class="navbar-nav p-4 p-lg-0">
+            <a th:href="@{/index}" class="nav-item nav-link">Home</a>
+            <a th:href="@{/about}" class="nav-item nav-link active">About</a>
+            <a th:href="@{/service}" class="nav-item nav-link">Services</a>
+            <a th:href="@{/contact}" class="nav-item nav-link">Contact</a>
+            <form th:action="@{/perform_logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="login-container">
+    <h2>Login</h2>
+    <form th:action="@{/perform_login}" method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-login">Login</button>
+    </form>
+    <div th:if="${param.error}" class="alert alert-danger">Invalid username or password.</div>
+    <div th:if="${param.logout}" class="alert alert-success">You have been logged out.</div>
+    <div class="text-center mt-3">
+        <a th:href="@{/auth/register}">Don't have an account? Register here</a>
+    </div>
+</div>
+</body>

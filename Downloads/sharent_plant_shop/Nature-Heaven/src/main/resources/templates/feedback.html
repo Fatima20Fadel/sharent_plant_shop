@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Feedback</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h2>Give Us Your Feedback</h2>
+
+<div id="login-warning" style="display: none; color: red; text-align: center;">
+    <p>You must be <a href="/login">logged in</a> to submit feedback.</p>
+</div>
+
+<form id="feedbackForm" style="display: none;">
+    <label>Rating:</label>
+    <select id="rating">
+        <option value="1">⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+    </select><br><br>
+
+    <label>Feedback Type:</label>
+    <select id="feedbackType">
+        <option value="Product Quality">Product Quality</option>
+        <option value="Delivery">Delivery</option>
+        <option value="Customer Support">Customer Support</option>
+        <option value="Website Usability">Website Usability</option>
+    </select><br><br>
+
+    <label>Message:</label>
+    <textarea id="message"></textarea><br><br>
+
+    <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+</form>
+
+<script>
+        async function checkLoginStatus() {
+            const response = await fetch("/api/user"); // API to check if the user is logged in
+            if (response.ok) {
+                document.getElementById("feedbackForm").style.display = "block";
+            } else {
+                document.getElementById("login-warning").style.display = "block";
+            }
+        }
+
+        async function submitFeedback() {
+            const feedback = {
+                rating: document.getElementById("rating").value,
+                feedbackType: document.getElementById("feedbackType").value,
+                message: document.getElementById("message").value
+            };
+
+            const response = await fetch("/api/feedback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(feedback)
+            });
+
+            if (response.ok) {
+                alert("Thank you for your feedback!");
+                document.getElementById("feedbackForm").reset();
+            } else {
+                alert("Error submitting feedback.");
+            }
+        }
+
+        checkLoginStatus(); // Check if user is logged in when page loads
+    </script>
+</body>
+</html>
