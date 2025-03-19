@@ -123,26 +123,64 @@
     };
 
     // Delete plant functionality using AJAX DELETE request
-  $(document).on('click', '.delete-link', function (e) {
-      e.preventDefault();
+    $(document).on('click', '.delete-link', function (e) {
+        e.preventDefault();
 
-      var plantId = $(this).data('plant-id');
-      console.log("Plant ID: " + plantId);  // Log the plantId to check if it's correctly retrieved
+        var plantId = $(this).data('plant-id');
+        console.log("Plant ID: " + plantId);  // Log the plantId to check if it's correctly retrieved
 
-      if (plantId && confirm("Are you sure you want to delete this plant?")) {
-          $.ajax({
-              url: `/api/plants/delete/${plantId}`,  // Correct URL structure
-              type: 'DELETE',  // Ensure the method is DELETE
-              success: function(response) {
-                  alert("Plant deleted successfully!");
-                  $('#plant-' + plantId).remove();  // Remove the plant from the DOM
-              },
-              error: function(xhr, status, error) {
-                  alert("Error deleting plant: " + error);
-              }
-          });
-      }
-  });
+        if (plantId && confirm("Are you sure you want to delete this plant?")) {
+            $.ajax({
+                url: `/api/plants/delete/${plantId}`,  // Correct URL structure
+                type: 'DELETE',  // Ensure the method is DELETE
+                success: function(response) {
+                    alert("Plant deleted successfully!");
+                    $('#plant-' + plantId).remove();  // Remove the plant from the DOM
+                },
+                error: function(xhr, status, error) {
+                    alert("Error deleting plant: " + error);
+                }
+            });
+        }
+    });
 
+    // Initialize star rating functionality
+    function initializeStarRating() {
+        const stars = document.querySelectorAll('.star-rating .star');
+        const ratingInput = document.getElementById('ratingInput');
 
-(jQuery);
+        if (!stars || !ratingInput) {
+            console.error("Star rating elements not found!");
+            return;
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const value = star.getAttribute('data-value');
+                ratingInput.value = value; // Update the hidden input value
+
+                // Highlight selected stars
+                stars.forEach((s) => {
+                    if (s.getAttribute('data-value') <= value) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Initialize stars based on the current rating (if editing feedback)
+        const initialRating = ratingInput.value;
+        if (initialRating) {
+            stars.forEach((s) => {
+                if (s.getAttribute('data-value') <= initialRating) {
+                    s.classList.add('active');
+                }
+            });
+        }
+    }
+
+    // Call the function to initialize the star rating
+    document.addEventListener('DOMContentLoaded', initializeStarRating);
+})(jQuery);

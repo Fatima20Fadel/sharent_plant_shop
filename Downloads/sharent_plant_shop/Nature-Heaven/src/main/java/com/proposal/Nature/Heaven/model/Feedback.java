@@ -20,11 +20,12 @@ public class Feedback {
     @Column(nullable = false)
     private int rating; // Rating (1 to 5 stars)
 
-    private String feedbackType; // Product quality, Delivery, etc.
+
 
     @Column(columnDefinition = "TEXT")
     private String message;
-
+    @Column(nullable = true)
+    private String feedbackType;
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public Long getId() {
